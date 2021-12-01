@@ -3,18 +3,19 @@ import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import SelectFieldName from "./select";
-const Book = () => {
+import SelectPagination from "./selectPage";
+const Character = () => {
   const dispatch = useDispatch();
   const characterDetail = useSelector((state) => state.apiData);
   useEffect(() => {
-    if (characterDetail.select == "" && characterDetail.sort == "") {
-      dispatch(requestCharacterApi());
-    } else {
-      dispatch(
-        requestCharacterApi(characterDetail.select, characterDetail.sort)
-      );
-    }
-  }, [characterDetail.sort]);
+    dispatch(
+      requestCharacterApi(
+        characterDetail.select,
+        characterDetail.sort,
+        characterDetail.filters
+      )
+    );
+  }, [characterDetail.sort, characterDetail.filters]);
   return (
     <>
       <SelectFieldName />
@@ -42,7 +43,8 @@ const Book = () => {
               ))}
         </tbody>
       </Table>
+      <SelectPagination/>
     </>
   );
 };
-export default Book;
+export default Character;

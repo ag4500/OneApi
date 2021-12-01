@@ -3,19 +3,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { requestMovieQuoteAPI } from "./thunks/bookapi";
 import { useEffect } from "react";
 import SelectFieldName from "./select";
+import SelectPagination from "./selectPage";
 const MovieQuotes = (props) => {
   const dispatch = useDispatch();
   const quotesDetail = useSelector((state) => state.apiData);
   const { id } = props.match.params;
   useEffect(() => {
-    if (quotesDetail.select == "" && quotesDetail.sort == "") {
-      dispatch(requestMovieQuoteAPI(id));
-    } else {
-      dispatch(
-        requestMovieQuoteAPI(id, quotesDetail.select, quotesDetail.sort)
-      );
-    }
-  }, [quotesDetail.sort]);
+    dispatch(
+      requestMovieQuoteAPI(
+        id,
+        quotesDetail.select,
+        quotesDetail.sort,
+        quotesDetail.filters
+      )
+    );
+  }, [quotesDetail.sort, quotesDetail.filters]);
+
   return (
     <>
       <SelectFieldName />
@@ -38,6 +41,7 @@ const MovieQuotes = (props) => {
             : "No Quotes Available"}
         </tbody>
       </Table>
+      <SelectPagination />
     </>
   );
 };

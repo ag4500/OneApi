@@ -5,14 +5,19 @@ import {
   Characters,
   Select_FieldName,
   Sorting_Field,
+  Set_Filter,
+  Set_Movie_Filters,
 } from "../actions/index";
 const initialState = {
   book: [],
   movie: [],
   quote: [],
   character: [],
-  select: "",
-  sort: "",
+  select: "name",
+  
+  sort: "asc",
+  filters: { page: 1, limit: 10 },
+  movieFilter: { budgetInMillions: "", runtimeInMinutes:"" },
 };
 export default function apiData(state = initialState, action) {
   switch (action.type) {
@@ -45,6 +50,17 @@ export default function apiData(state = initialState, action) {
       return {
         ...state,
         sort: action.payload,
+      };
+    case Set_Filter:
+      return {
+        ...state,
+        filters: action.payload,
+      };
+    case Set_Movie_Filters:
+     
+      return {
+        ...state,
+        movieFilter: action.payload,
       };
 
     default:

@@ -3,18 +3,15 @@ import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { requestBookAPI } from "./thunks/bookapi";
 import { useEffect } from "react";
+import SelectPagination from "./selectPage";
 const Book = () => {
   const dispatch = useDispatch();
   const bookDetail = useSelector((state) => state.apiData);
-
   useEffect(() => {
-    if (bookDetail.select == "" && bookDetail.sort == "") {
-      dispatch(requestBookAPI());
-    } else {
-      dispatch(requestBookAPI(bookDetail.select, bookDetail.sort));
-    }
+    dispatch(
+      requestBookAPI(bookDetail.select, bookDetail.sort, bookDetail.filters)
+    );
   }, [bookDetail.sort]);
-
   return (
     <div className="container">
       <SelectFieldName />
@@ -34,6 +31,7 @@ const Book = () => {
               ))}
         </tbody>
       </Table>
+      <SelectPagination />
     </div>
   );
 };
